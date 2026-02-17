@@ -250,9 +250,7 @@ def sql_executor_node(state: AgentState):
     try:
         engine = create_engine(DB_CONNECTION_STRING)
         with engine.connect() as connection:
-            # Use text() to ensure the query is treated as a safe SQL string
             result = connection.execute(text(sql_query))
-            # Fetch all rows and convert to a list of dictionaries
             results_list = [dict(row._mapping) for row in result.fetchall()]
             print("✅ Query executed successfully.")
             return {"query_results": results_list, "error_message": ""}
@@ -361,7 +359,7 @@ if __name__ == "__main__":
             final_state = app.invoke(initial_state)
 
             if not final_state.get("clarifying_question"):
-                break  # Exit the loop if no clarification is needed
+                break  # Exit the loop if no clarification 
 
             print(f"Agent needs clarification: {final_state['clarifying_question']}")
             input_question = input("Your clarification: ")
